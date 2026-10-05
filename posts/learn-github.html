@@ -4,69 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>เริ่มต้นใช้ GitHub ครั้งแรก — StoLern Blog</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #fafafa; --bg-card: #ffffff; --text: #1a1a2e;
-      --text-secondary: #64748b; --accent: #6366f1; --border: #e2e8f0;
-      --shadow: 0 1px 3px rgba(0,0,0,0.08); --radius: 12px;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --bg: #0f172a; --bg-card: #1e293b; --text: #e2e8f0;
-        --text-secondary: #94a3b8; --accent: #818cf8; --border: #334155;
-        --shadow: 0 1px 3px rgba(0,0,0,0.3);
-      }
-    }
-    :root[data-theme="dark"] {
-      --bg: #0f172a; --bg-card: #1e293b; --text: #e2e8f0;
-      --text-secondary: #94a3b8; --accent: #818cf8; --border: #334155;
-      --shadow: 0 1px 3px rgba(0,0,0,0.3);
-    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Sarabun', 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
-    header { background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-    .header-inner { max-width: 800px; margin: 0 auto; padding: 16px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; }
-    .logo span { color: var(--text); font-weight: 300; }
-    nav a { color: var(--text-secondary); text-decoration: none; margin-left: 24px; font-size: 0.9rem; font-weight: 500; }
-    nav a:hover { color: var(--accent); }
-    .article { max-width: 800px; margin: 0 auto; padding: 50px 16px 60px; }
-    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 20px; }
-    .back-link:hover { text-decoration: underline; }
-    .article-header h1 { font-size: 2rem; margin-bottom: 12px; line-height: 1.4; }
-    .article-meta { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 32px; }
-    .article-body { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow); }
-    .article-body p { margin-bottom: 20px; font-size: 1.05rem; color: var(--text-secondary); }
+    body { font-family: 'Sarabun', 'Inter', sans-serif; background: #eef2f7; color: #1e293b; line-height: 1.8; min-height: 100vh; }
+
+    .topbar { background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+    .topbar-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+    .topbar .logo { font-size: 1.35rem; font-weight: 800; color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .topbar .logo .dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; }
+    .topbar .logo .badge { font-size: 0.6rem; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; font-weight: 600; margin-left: 4px; }
+    .topbar nav { display: flex; align-items: center; gap: 8px; }
+    .topbar nav a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.85rem; font-weight: 500; padding: 6px 14px; border-radius: 6px; transition: background 0.2s; }
+    .topbar nav a:hover { background: rgba(255,255,255,0.15); color: white; }
+    .topbar .avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a78bfa); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: white; margin-left: 12px; }
+
+    .article-hero { background: linear-gradient(160deg, #d6e4f5 0%, #e8eef6 40%, #f0f4f8 100%); padding: 40px 24px 32px; }
+    .article-hero-inner { max-width: 800px; margin: 0 auto; }
+    .back-link { color: #2d5a8e; text-decoration: none; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(255,255,255,0.6); border-radius: 8px; margin-bottom: 20px; transition: background 0.2s; }
+    .back-link:hover { background: rgba(255,255,255,0.9); }
+    .article-hero h1 { font-size: 2.2rem; font-weight: 800; color: #1e3a5f; line-height: 1.3; margin-bottom: 8px; }
+    .article-meta { display: flex; align-items: center; gap: 12px; }
+    .article-meta .date { font-size: 0.85rem; color: #64748b; }
+    .article-meta .tag { font-size: 0.72rem; padding: 3px 12px; border-radius: 20px; background: rgba(99,102,241,0.1); color: #6366f1; font-weight: 600; }
+
+    .article-content { max-width: 800px; margin: 0 auto; padding: 32px 24px 60px; }
+    .article-body { background: white; border-radius: 16px; border: 1px solid #e2e8f0; padding: 40px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .article-body p { margin-bottom: 20px; font-size: 1.05rem; color: #475569; }
     .article-body p:last-child { margin-bottom: 0; }
-    .article-body strong { color: var(--text); }
-    .article-body h2 { font-size: 1.3rem; margin: 28px 0 12px; color: var(--text); }
-    .step { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 12px 0; }
-    .step-num { display: inline-block; background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 0.85rem; font-weight: 700; margin-right: 10px; }
-    footer { text-align: center; padding: 30px 16px; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border); max-width: 800px; margin: 0 auto; }
-    footer a { color: var(--accent); text-decoration: none; }
+    .article-body strong { color: #1e293b; }
+    .article-body h2 { font-size: 1.3rem; font-weight: 700; margin: 32px 0 12px; color: #1e3a5f; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+
+    .step { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px 20px; margin: 12px 0; display: flex; align-items: center; gap: 14px; }
+    .step-num { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #6366f1, #818cf8); color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+    .step-text { font-size: 0.95rem; color: #475569; }
+    .step-text strong { color: #1e293b; }
+
+    footer { text-align: center; padding: 24px 16px; color: #94a3b8; font-size: 0.82rem; border-top: 1px solid #e2e8f0; max-width: 800px; margin: 0 auto; }
+    footer a { color: #6366f1; text-decoration: none; }
+
+    @media (max-width: 640px) {
+      .article-hero h1 { font-size: 1.6rem; }
+      .article-body { padding: 24px; }
+      .topbar nav a { font-size: 0.78rem; padding: 6px 10px; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-inner">
-      <a href="../index.html" class="logo">Sto<span>Lern</span></a>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="../index.html" class="logo">
+        <span class="dot"></span>
+        StoLern
+        <span class="badge">Blog</span>
+      </a>
       <nav>
         <a href="../index.html">หน้าแรก</a>
         <a href="../apps/wensdesk.html">WensDesk</a>
         <a href="../about.html">เกี่ยวกับ</a>
+        <div class="avatar">SP</div>
       </nav>
     </div>
-  </header>
+  </div>
 
-  <article class="article">
-    <div class="article-header">
-      <a href="../index.html" class="back-link">← กลับหน้าแรก</a>
-      <h1>เริ่มต้นใช้ GitHub ครั้งแรก 🚀</h1>
-      <div class="article-meta">5 ตุลาคม 2567 · เรียนรู้</div>
+  <section class="article-hero">
+    <div class="article-hero-inner">
+      <a href="../index.html" class="back-link">&#8592; กลับหน้าแรก</a>
+      <h1>เริ่มต้นใช้ GitHub ครั้งแรก &#128640;</h1>
+      <div class="article-meta">
+        <span class="date">&#128197; 5 ตุลาคม 2567</span>
+        <span class="tag">เรียนรู้</span>
+      </div>
     </div>
+  </section>
+
+  <div class="article-content">
     <div class="article-body">
-      <p><strong>GitHub</strong> คือเว็บไซต์สำหรับเก็บโค้ดและไฟล์ต่าง ๆ แบบออนไลน์ แต่สิ่งที่เจ๋งคือ เราสามารถใช้มันสร้างเว็บไซต์ฟรีได้ด้วย! 🎉</p>
+      <p><strong>GitHub</strong> คือเว็บไซต์สำหรับเก็บโค้ดและไฟล์ต่าง ๆ แบบออนไลน์ แต่สิ่งที่เจ๋งคือ เราสามารถใช้มันสร้างเว็บไซต์ฟรีได้ด้วย! &#127881;</p>
 
       <h2>GitHub Pages คืออะไร?</h2>
       <p>GitHub Pages เป็นบริการฟรีจาก GitHub ที่ให้เราเอาไฟล์ HTML, CSS, JavaScript ขึ้นไปเก็บแล้วมันจะกลายเป็นเว็บไซต์ให้เลย ไม่ต้องจ่ายค่า hosting!</p>
@@ -74,36 +88,36 @@
       <h2>ขั้นตอนที่ทำ</h2>
       <div class="step">
         <span class="step-num">1</span>
-        <strong>สมัครบัญชี GitHub</strong> — ใช้อีเมลสมัครได้เลย ฟรี
+        <div class="step-text"><strong>สมัครบัญชี GitHub</strong> — ใช้อีเมลสมัครได้เลย ฟรี</div>
       </div>
       <div class="step">
         <span class="step-num">2</span>
-        <strong>สร้าง Repository</strong> — เหมือนโฟลเดอร์สำหรับเก็บไฟล์โปรเจกต์
+        <div class="step-text"><strong>สร้าง Repository</strong> — เหมือนโฟลเดอร์สำหรับเก็บไฟล์โปรเจกต์</div>
       </div>
       <div class="step">
         <span class="step-num">3</span>
-        <strong>สร้างไฟล์ HTML</strong> — เขียนหน้าเว็บแล้วใส่เข้าไป
+        <div class="step-text"><strong>สร้างไฟล์ HTML</strong> — เขียนหน้าเว็บแล้วใส่เข้าไป</div>
       </div>
       <div class="step">
         <span class="step-num">4</span>
-        <strong>เปิด GitHub Pages</strong> — ไปที่ Settings → Pages แล้วเลือก branch
+        <div class="step-text"><strong>เปิด GitHub Pages</strong> — ไปที่ Settings &#8594; Pages แล้วเลือก branch</div>
       </div>
       <div class="step">
         <span class="step-num">5</span>
-        <strong>ได้เว็บไซต์!</strong> — เข้าได้ที่ stolern.github.io/feedback
+        <div class="step-text"><strong>ได้เว็บไซต์!</strong> — เข้าได้ที่ stolern.github.io/Feedback</div>
       </div>
 
       <h2>สิ่งที่ได้เรียนรู้</h2>
-      <p>🔹 GitHub ไม่ได้น่ากลัวอย่างที่คิด — แค่เริ่มลองก็พอ<br>
-         🔹 ไม่ต้องเก่งโค้ดก็สร้างเว็บได้<br>
-         🔹 มี AI ช่วยเขียนโค้ดให้ สะดวกมาก!</p>
+      <p>&#128313; GitHub ไม่ได้น่ากลัวอย่างที่คิด — แค่เริ่มลองก็พอ<br>
+         &#128313; ไม่ต้องเก่งโค้ดก็สร้างเว็บได้<br>
+         &#128313; มี AI ช่วยเขียนโค้ดให้ สะดวกมาก!</p>
 
-      <p>ถ้าใครอยากลองทำบ้าง ก็ลองดูได้เลยครับ ง่ายกว่าที่คิดจริง ๆ 💪</p>
+      <p>ถ้าใครอยากลองทำบ้าง ก็ลองดูได้เลยครับ ง่ายกว่าที่คิดจริง ๆ &#128170;</p>
     </div>
-  </article>
+  </div>
 
   <footer>
-    <p>© 2024 StoLern · สร้างด้วย ❤️ บน <a href="https://github.com/stolern/feedback" target="_blank">GitHub</a></p>
+    <p>&copy; 2024 StoLern &middot; สร้างด้วย &#10084;&#65039; บน <a href="https://github.com/stolern/feedback" target="_blank">GitHub</a></p>
   </footer>
 </body>
 </html>
