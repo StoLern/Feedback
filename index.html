@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StoLern Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafafa;
+      --bg-card: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #64748b;
+      --accent: #6366f1;
+      --accent-light: #e0e7ff;
+      --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-hover: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
+      --radius: 12px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f172a;
+        --bg-card: #1e293b;
+        --text: #e2e8f0;
+        --text-secondary: #94a3b8;
+        --accent: #818cf8;
+        --accent-light: #1e1b4b;
+        --border: #334155;
+        --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        --shadow-hover: 0 10px 25px rgba(0,0,0,0.3);
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --text: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --accent: #818cf8;
+      --accent-light: #1e1b4b;
+      --border: #334155;
+      --shadow: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-hover: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans Thai', 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin-left: 24px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 16px 40px;
+      text-align: center;
+    }
+
+    .hero-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2rem;
+      color: white;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* Posts */
+    .posts {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 16px 60px;
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .post-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.3s, transform 0.2s;
+      cursor: pointer;
+    }
+
+    .post-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .post-date {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    .post-tag {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .post-card h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .post-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--accent);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .read-more:hover { text-decoration: underline; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px 16px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">Sto<span>Lern</span></a>
+      <nav>
+        <a href="index.html">หน้าแรก</a>
+        <a href="about.html">เกี่ยวกับ</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-avatar">S</div>
+    <h1>สวัสดี, ผม StoLern 👋</h1>
+    <p>บันทึกเรื่องราว ความคิด และสิ่งที่เรียนรู้ระหว่างทาง</p>
+  </section>
+
+  <section class="posts">
+    <div class="section-title">📝 บทความล่าสุด</div>
+
+    <article class="post-card" onclick="location.href='posts/hello-world.html'">
+      <div class="post-meta">
+        <span class="post-date">5 ตุลาคม 2567</span>
+        <span class="post-tag">ทั่วไป</span>
+      </div>
+      <h2>สวัสดีชาวโลก! 🌏</h2>
+      <p>โพสต์แรกของ blog นี้ — ทำไมถึงเริ่มเขียน และอยากจะเล่าอะไรบ้าง</p>
+      <a href="posts/hello-world.html" class="read-more">อ่านต่อ →</a>
+    </article>
+
+    <article class="post-card" onclick="location.href='posts/learn-github.html'">
+      <div class="post-meta">
+        <span class="post-date">5 ตุลาคม 2567</span>
+        <span class="post-tag">เรียนรู้</span>
+      </div>
+      <h2>เริ่มต้นใช้ GitHub ครั้งแรก 🚀</h2>
+      <p>บันทึกประสบการณ์การสร้างเว็บไซต์แรกบน GitHub Pages — ง่ายกว่าที่คิด!</p>
+      <a href="posts/learn-github.html" class="read-more">อ่านต่อ →</a>
+    </article>
+  </section>
+
+  <footer>
+    <p>© 2024 StoLern · สร้างด้วย ❤️ บน <a href="https://github.com/stolern/feedback" target="_blank">GitHub</a></p>
+  </footer>
+
+</body>
+</html>

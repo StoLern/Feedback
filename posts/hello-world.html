@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สวัสดีชาวโลก! — StoLern Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafafa; --bg-card: #ffffff; --text: #1a1a2e;
+      --text-secondary: #64748b; --accent: #6366f1; --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08); --radius: 12px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f172a; --bg-card: #1e293b; --text: #e2e8f0;
+        --text-secondary: #94a3b8; --accent: #818cf8; --border: #334155;
+        --shadow: 0 1px 3px rgba(0,0,0,0.3);
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0f172a; --bg-card: #1e293b; --text: #e2e8f0;
+      --text-secondary: #94a3b8; --accent: #818cf8; --border: #334155;
+      --shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans Thai', 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+    header { background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 800px; margin: 0 auto; padding: 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+    .logo span { color: var(--text); font-weight: 300; }
+    nav a { color: var(--text-secondary); text-decoration: none; margin-left: 24px; font-size: 0.9rem; font-weight: 500; }
+    nav a:hover { color: var(--accent); }
+    .article { max-width: 800px; margin: 0 auto; padding: 50px 16px 60px; }
+    .article-header { margin-bottom: 32px; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 20px; }
+    .back-link:hover { text-decoration: underline; }
+    .article-header h1 { font-size: 2rem; margin-bottom: 12px; line-height: 1.4; }
+    .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
+    .article-body { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow); }
+    .article-body p { margin-bottom: 20px; font-size: 1.05rem; color: var(--text-secondary); }
+    .article-body p:last-child { margin-bottom: 0; }
+    .article-body strong { color: var(--text); }
+    .article-body h2 { font-size: 1.3rem; margin: 28px 0 12px; color: var(--text); }
+    footer { text-align: center; padding: 30px 16px; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border); max-width: 800px; margin: 0 auto; }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="logo">Sto<span>Lern</span></a>
+      <nav>
+        <a href="../index.html">หน้าแรก</a>
+        <a href="../about.html">เกี่ยวกับ</a>
+      </nav>
+    </div>
+  </header>
+
+  <article class="article">
+    <div class="article-header">
+      <a href="../index.html" class="back-link">← กลับหน้าแรก</a>
+      <h1>สวัสดีชาวโลก! 🌏</h1>
+      <div class="article-meta">5 ตุลาคม 2567 · ทั่วไป</div>
+    </div>
+    <div class="article-body">
+      <p><strong>สวัสดีครับ!</strong> นี่คือโพสต์แรกของ blog นี้ ยินดีต้อนรับทุกคนที่แวะเข้ามาอ่าน 🎉</p>
+
+      <h2>ทำไมถึงเริ่มเขียน?</h2>
+      <p>ผมอยากมีพื้นที่เล็ก ๆ สำหรับบันทึกสิ่งที่เรียนรู้ ไม่ว่าจะเป็นเรื่องเทคโนโลยี การเขียนโปรแกรม หรือเรื่องทั่วไปในชีวิต การเขียนช่วยให้จัดระเบียบความคิดได้ดีขึ้น แถมยังได้แบ่งปันให้คนอื่นด้วย</p>
+
+      <h2>จะเขียนอะไรบ้าง?</h2>
+      <p>ตอนนี้ยังไม่ได้วางแผนแน่ชัด แต่น่าจะมีเรื่องเกี่ยวกับ:</p>
+      <p>🔹 สิ่งที่เรียนรู้ใหม่ ๆ ในแต่ละวัน<br>
+         🔹 เทคนิคและเครื่องมือที่ใช้แล้วชอบ<br>
+         🔹 ประสบการณ์ในการลองสิ่งใหม่</p>
+
+      <h2>ขอบคุณที่อ่าน 🙏</h2>
+      <p>ถ้าอ่านแล้วชอบหรือมีอะไรอยากแนะนำ ทักมาได้เลยครับ หวังว่า blog นี้จะมีประโยชน์กับทุกคนนะครับ!</p>
+    </div>
+  </article>
+
+  <footer>
+    <p>© 2024 StoLern · สร้างด้วย ❤️ บน <a href="https://github.com/stolern/feedback" target="_blank">GitHub</a></p>
+  </footer>
+</body>
+</html>
