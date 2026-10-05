@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WensDesk Knowledge v2 — StoLern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sys-font:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Sarabun",sans-serif;
+  --bg:#0a0a0c;
+  --glass:rgba(255,255,255,0.92);
+  --glass-border:1px solid rgba(255,255,255,0.55);
+  --blur:blur(28px);
+  --shadow:0 18px 48px rgba(0,0,0,0.4);
+  --accent:#FFD700;
+  --accent2:#FFA500;
+  --top:32px;
+  --dock:80px;
+  --radius:12px;
+  --z-win:100;--z-dock:9000;--z-top:9001;--z-overlay:9999;--z-toast:10000;
+  --bg-color:#fafafa;--navbar-bg:rgba(255,255,255,0.85);--card-bg:#ffffff;
+  --text-main:#111111;--text-muted:#666666;--text-subtle:#999999;
+  --border-color:#e5e5e5;--accent-color:#0070f3;
+}
+*{box-sizing:border-box;user-select:none;cursor:default;}
+.win-content,.win-content *{user-select:text;cursor:auto;}
+body,html{margin:0;padding:0;width:100vw;height:100vh;overflow:hidden;font-family:var(--sys-font);background:#000;font-feature-settings:'cv02','cv03','cv04','cv11';}
+#os-root{width:100%;height:100%;position:relative;background:#fafaf9;background-image:radial-gradient(circle at 100% 100%,rgba(255,200,120,0.15) 0%,transparent 50%);}
+#topbar{position:absolute;top:0;left:0;right:0;height:var(--top);background:var(--navbar-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border-color);z-index:var(--z-top);display:flex;justify-content:space-between;align-items:center;padding:0 18px;font-size:13px;font-weight:500;color:var(--text-main);}
+.tb-l,.tb-r{display:flex;gap:14px;align-items:center;}
+#logo{font-weight:700;color:var(--text-main);letter-spacing:0.5px;font-size:14px;}
+.tb-status{font-size:11px;opacity:0.65;display:flex;gap:10px;}
+.tb-status .dot{width:6px;height:6px;border-radius:50%;background:#10b981;display:inline-block;margin-right:4px;box-shadow:0 0 6px #10b981;}
+.tb-menu{display:flex;gap:2px;align-items:center;margin-left:18px;}
+.tb-mi{padding:4px 12px;border-radius:4px;cursor:pointer;position:relative;font-size:13px;font-weight:500;color:var(--text-muted);}
+.tb-mi:hover,.tb-mi.active{background:rgba(0,0,0,0.05);}
+.tb-dd{position:absolute;top:100%;left:0;min-width:260px;background:#ffffff;border-radius:8px;border:1px solid rgba(0,0,0,0.08);box-shadow:0 8px 24px rgba(0,0,0,0.12);padding:6px 0;z-index:10001;opacity:0;pointer-events:none;transform:translateY(-4px);transition:opacity 0.15s,transform 0.15s;margin-top:6px;}
+.tb-dd.open{opacity:1;pointer-events:auto;transform:translateY(0);}
+.tb-mi::after{content:'';position:absolute;top:100%;left:0;right:0;height:10px;}
+.tb-mi:hover .tb-dd,.tb-mi:focus-within .tb-dd{opacity:1;pointer-events:auto;transform:translateY(0);}
+.tb-ddi{padding:8px 14px;font-size:12px;font-weight:400;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#1a1a1a;}
+.tb-ddi:hover{background:rgba(0,0,0,0.04);color:#1a1a1a;}
+.tb-ddi.dis{color:#aaa;pointer-events:none;}
+.tb-ddi.danger{color:#dc2626;}
+.tb-ddi.danger:hover{background:rgba(220,38,38,0.06);}
+.tb-ddv{height:1px;background:rgba(0,0,0,0.06);margin:5px 0;}
+.tb-ddk{font-size:11px;color:#888;margin-left:20px;}
+.tb-caret{font-size:10px;opacity:0.7;}
+#desktop{position:absolute;top:var(--top);left:0;right:0;bottom:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:0;gap:0;overflow:hidden;}
+.home-logo{font-size:56px;font-weight:700;letter-spacing:1px;line-height:1;}
+.home-logo-ic{color:var(--accent);}
+.gc-b{color:#4285F4;}.gc-r{color:#EA4335;}.gc-y{color:#FBBC04;}.gc-g{color:#34A853;}
+.home-search-wrap{position:relative;width:580px;max-width:90vw;}
+.home-search-ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:18px;color:#9ca3af;pointer-events:none;user-select:none;}
+.home-search{width:100%;height:48px;padding:0 20px 0 48px;border-radius:24px;border:1px solid rgba(0,0,0,0.12);background:white;font-size:16px;font-family:var(--sys-font);box-shadow:0 1px 6px rgba(0,0,0,0.04);transition:box-shadow 0.15s,border-color 0.15s;outline:none;user-select:text;cursor:text;}
+.home-search:hover{box-shadow:0 2px 12px rgba(0,0,0,0.08);border-color:rgba(0,0,0,0.18);}
+.home-search:focus{box-shadow:0 2px 12px rgba(0,0,0,0.12);border-color:rgba(0,0,0,0.2);}
+.home-container{width:100%;max-width:1040px;margin:0 auto;padding:60px 24px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;flex:1;}
+.home-shortcuts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;width:100%;}
+.home-ic{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;background:#ffffff;border:1px solid var(--border-color);border-radius:8px;padding:16px 12px;transition:border-color 0.15s,transform 0.15s,box-shadow 0.15s;}
+.home-ic:hover{border-color:#111;transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.home-ic-bg{width:44px;height:44px;border-radius:6px;background:#f9f9fb;border:1.5px solid #f0f0f2;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.home-ic:hover .home-ic-bg{border-color:var(--ic-color,#d1d5db);}
+.home-ic-t{font-size:12.5px;font-weight:500;color:#333;text-align:center;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#app-bar{position:absolute;top:var(--top);left:0;right:0;height:36px;background:#ffffff;border-bottom:1px solid rgba(0,0,0,0.08);display:none;align-items:center;padding:0 16px;gap:12px;z-index:var(--z-win);}
+#app-bar-back{background:none;border:none;cursor:pointer;color:#3a3a3a;font-size:13px;font-weight:500;display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;font-family:inherit;transition:background 0.15s;}
+#app-bar-back:hover{background:rgba(0,0,0,0.05);}
+#app-bar-sep{width:1px;height:18px;background:rgba(0,0,0,0.12);}
+#app-bar-name{font-size:13px;font-weight:600;color:#0a0a0a;}
+#app-bar-close{background:none;border:none;cursor:pointer;color:#9ca3af;font-size:12px;font-weight:500;display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;font-family:inherit;transition:background 0.15s,color 0.15s;margin-left:auto;}
+#app-bar-close:hover{background:rgba(220,38,38,0.06);color:#dc2626;}
+#open-apps{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;width:100%;padding:8px 24px;background:#ffffff;border-bottom:1px solid #e5e5e5;box-sizing:border-box;min-height:0;}
+#open-apps:empty{display:none;}
+#open-apps .label{font-size:12px;color:#6b7280;align-self:center;margin-right:4px;}
+.app-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 8px 6px 12px;background:#ffffff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;font-size:12px;color:#1a1a1a;cursor:pointer;transition:background 0.15s,border-color 0.15s;box-shadow:0 1px 2px rgba(0,0,0,0.04);}
+.app-chip:hover{background:#f9fafb;border-color:rgba(0,0,0,0.15);}
+.app-chip-icon{font-size:14px;}
+.app-chip-close{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#9ca3af;font-size:12px;margin-left:2px;}
+.app-chip-close:hover{background:rgba(220,38,38,0.1);color:#dc2626;}
+.tab{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid transparent;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:#555;white-space:nowrap;transition:background 0.15s,border-color 0.15s,color 0.15s;background:#f3f4f6;}
+.tab:hover{background:#e9eaeb;color:#111;}
+.tab.active{background:#ffffff;border-color:#e5e5e5;color:#111;box-shadow:0 1px 2px rgba(0,0,0,0.05);}
+.tab .tab-icon{font-size:14px;}
+.tab .tab-icon svg{width:12px;height:12px;}
+.tab .close-btn{font-size:14px;color:#9ca3af;padding:0 2px;margin-left:2px;background:none;border:none;cursor:pointer;border-radius:3px;line-height:1;font-family:inherit;}
+.tab .close-btn:hover{background:#f3f4f6;color:#ef4444;}
+#app-host{position:absolute;top:calc(var(--top) + 36px);left:0;right:0;bottom:0;background:#f6f6f8;display:none;flex-direction:column;overflow:hidden;z-index:var(--z-win);opacity:0;transition:opacity 0.2s;}
+#app-host.visible{opacity:1;}
+#toast{position:absolute;top:48px;right:18px;z-index:var(--z-toast);display:flex;flex-direction:column;gap:8px;}
+.toast{background:#1a1a1a;color:white;padding:10px 18px;border-radius:8px;font-size:13px;box-shadow:0 4px 16px rgba(0,0,0,0.18),0 1px 4px rgba(0,0,0,0.1);animation:fi 0.3s,fo 0.3s 2.5s forwards;}
+@keyframes fi{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fo{from{opacity:1;}to{opacity:0;}}
+@keyframes la-pulse{0%,80%,100%{opacity:.2;transform:scale(.8);}40%{opacity:1;transform:scale(1);}}
+.la-spin{display:inline-block;font-size:8px;color:#6b7280;animation:la-pulse 1.2s infinite ease-in-out;margin:0 2px;}
+.toolbar{padding:8px 12px;background:#eee;border-bottom:1px solid #ddd;display:flex;gap:8px;align-items:center;height:46px;flex-shrink:0;}
+.toolbar-sp{flex:1;}
+.body{flex:1;overflow-y:auto;padding:0;}
+.btn{padding:6px 14px;border-radius:6px;border:1px solid #bbb;background:#fff;cursor:pointer;font-size:12px;font-weight:500;transition:0.1s;box-shadow:0 1px 2px rgba(0,0,0,0.05);font-family:inherit;}
+.btn:hover{background:#f0f0f0;border-color:#999;}
+.btn:active{transform:translateY(1px);}
+.btn-p{background:linear-gradient(135deg,#f5a623,#e8820c);color:white;border:none;}
+.btn-p:hover{background:linear-gradient(135deg,#e8820c,#d4700a);}
+.btn-d{background:#fee;color:#dc3545;border-color:#fcc;}
+input,select,textarea{padding:7px 10px;border:1px solid #ccc;border-radius:6px;font-size:13px;font-family:inherit;outline:none;background:#fff;}
+input:focus,select:focus,textarea:focus{border-color:#f5a623;box-shadow:0 0 0 2px rgba(245,166,35,0.2);}
+.form{padding:20px;overflow-y:auto;}
+.row{margin-bottom:14px;}
+.row label{display:block;font-size:12px;font-weight:600;color:#555;margin-bottom:4px;}
+.row input,.row select,.row textarea{width:100%;}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.tbl th{background:#f0f0f0;padding:10px 12px;text-align:left;border-bottom:2px solid #ddd;font-weight:600;font-size:12px;color:#555;}
+.tbl td{padding:10px 12px;border-bottom:1px solid #eee;}
+.tbl tr:hover td{background:#fafafa;cursor:pointer;}
+.tbl-num{text-align:center;}
+.tbl-stat{text-align:center;}
+.tbl th.tbl-num,.tbl th.tbl-stat{text-align:center;}
+.tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;background:#eee;color:#555;margin:1px;}
+.tag-c{background:#fff3cd;color:#856404;}
+.tag-i{background:#dbeafe;color:#1e40af;}
+.tag-s{background:#d1fae5;color:#065f46;}
+.tag-w{background:#fee2e2;color:#991b1b;}
+.sb{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;}
+.s-open{background:#fee2e2;color:#dc2626;}
+.s-prog{background:#dbeafe;color:#2563eb;}
+.s-wait{background:#fef3c7;color:#d97706;}
+.s-esc{background:#ede9fe;color:#7c3aed;}
+.s-res{background:#d1fae5;color:#059669;}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;margin-bottom:10px;cursor:pointer;transition:0.15s;}
+.card:hover{box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+.card.crit{border-left:4px solid #dc2626;}
+.card.high{border-left:4px solid #f59e0b;}
+.card.med{border-left:4px solid #3b82f6;}
+.card.low{border-left:4px solid #10b981;}
+.card-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.card-t{font-weight:600;color:#111;font-size:14px;}
+.card-sub{font-size:12px;color:#666;margin-top:2px;}
+.card-m{font-size:12px;color:#888;}
+.engine-badge{display:inline-flex;align-items:center;gap:6px;background:#eef2ff;color:#4338ca;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:500;}
+.engine-badge.ok{background:#d1fae5;color:#065f46;}
+.engine-badge.wip{background:#fef3c7;color:#92400e;}
+.engine-dot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.hero{padding:24px 22px;border-bottom:1px solid #e5e7eb;background:linear-gradient(180deg,#fafafa 0%,#fff 100%);}
+.hero h2{margin:0 0 6px;font-size:18px;color:#111;}
+.hero p{margin:0;color:#666;font-size:13px;line-height:1.5;}
+.hero-meta{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;padding:14px;}
+.stat{background:#fff;border:1px solid #eee;border-radius:8px;padding:14px;}
+.stat-v{font-size:24px;font-weight:700;color:#111;}
+.stat-l{font-size:11px;color:#888;margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;}
+.chat-wrap{display:flex;flex-direction:column;height:100%;}
+.chat-msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px;}
+.msg{max-width:75%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;}
+.msg-u{align-self:flex-end;background:linear-gradient(135deg,#f5a623,#e8820c);color:white;border-bottom-right-radius:4px;}
+.msg-a{align-self:flex-start;background:#fff;border:1px solid #e5e7eb;color:#222;border-bottom-left-radius:4px;}
+.msg-meta{font-size:10px;color:#888;margin-top:4px;}
+.msg-srcs{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;}
+.msg-src{font-size:10px;background:#eff6ff;color:#1e40af;padding:3px 8px;border-radius:8px;}
+.chat-in{display:flex;gap:8px;padding:12px;background:#fff;border-top:1px solid #e5e7eb;}
+.chat-in input{flex:1;}
+.chat-router{display:flex;gap:6px;padding:8px 12px;background:#f9fafb;border-bottom:1px solid #e5e7eb;font-size:11px;align-items:center;}
+.chat-router .lbl{color:#888;}
+.chat-route{padding:3px 8px;border-radius:10px;background:#fff;border:1px solid #d1d5db;cursor:pointer;font-size:11px;}
+.chat-route.on{background:#1e40af;color:white;border-color:#1e40af;}
+.inbox-drop{border:2px dashed #d1d5db;border-radius:12px;padding:40px;text-align:center;color:#888;margin:18px;transition:0.2s;}
+.inbox-drop.over{border-color:#f5a623;background:#fff7ed;color:#c2410c;}
+.inbox-drop h3{margin:0 0 8px;color:#444;}
+.pipeline{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#f9fafb;border-radius:10px;margin:0 18px 18px;font-size:12px;}
+.pipe-step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;}
+.pipe-step .ic{font-size:20px;}
+.pipe-step .lbl{color:#666;font-weight:500;}
+.pipe-arr{color:#d1d5db;font-size:18px;}
+.queue-item{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin:0 18px 8px;display:flex;align-items:center;gap:12px;}
+.queue-prog{height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden;margin-top:6px;}
+.queue-prog .fill{height:100%;background:linear-gradient(90deg,#f59e0b,#10b981);transition:width 0.4s;}
+.queue-st{font-size:10px;font-weight:600;text-transform:uppercase;padding:3px 8px;border-radius:8px;}
+.q-pending{background:#fef3c7;color:#92400e;}
+.q-chunk{background:#dbeafe;color:#1e40af;}
+.q-embed{background:#ede9fe;color:#6b21a8;}
+.q-done{background:#d1fae5;color:#065f46;}
+.heatmap{display:grid;grid-template-columns:80px repeat(10,1fr);gap:2px;padding:14px;font-size:11px;}
+.hm-h{background:#f3f4f6;padding:6px;text-align:center;font-weight:600;color:#374151;}
+.hm-r{background:#f3f4f6;padding:6px;text-align:right;font-weight:600;color:#374151;}
+.hm-c{padding:8px 4px;text-align:center;color:white;font-weight:600;border-radius:3px;font-size:10px;}
+.plc-list{display:flex;height:100%;}
+.plc-side{width:300px;border-right:1px solid #eee;display:flex;flex-direction:column;}
+.plc-detail{flex:1;overflow-y:auto;padding:20px;background:#fafafa;}
+pre{font-family:'Courier New',monospace;background:#1e1e1e;color:#d4d4d4;padding:14px;border-radius:6px;overflow-x:auto;font-size:12px;line-height:1.6;margin:8px 0;}
+.issue{background:#fff8f0;border:1px solid #fed7aa;border-radius:6px;padding:10px;margin-bottom:6px;}
+.issue-t{font-weight:600;color:#c2410c;font-size:13px;margin-bottom:4px;}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#888;text-align:center;gap:14px;padding:30px;}
+.empty-ic{font-size:56px;}
+.empty h2{margin:0;color:#555;font-size:20px;}
+.empty p{margin:0;font-size:13px;color:#888;max-width:340px;line-height:1.6;}
+.about-eng{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin:14px 18px;font-size:12px;color:#475569;display:flex;align-items:center;gap:10px;}
+.about-eng .ic{font-size:18px;}
+.about-eng strong{color:#1e293b;}
+.about-eng code{background:#1e293b;color:#94a3b8;padding:2px 6px;border-radius:4px;font-size:11px;}
+.app-subtitle{font-size:9px;font-weight:500;color:var(--text-subtle);letter-spacing:0.05em;text-transform:uppercase;margin-top:2px;text-align:center;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ver-chip{font-size:10px;font-weight:500;color:#888;background:#f0f0f2;border-radius:4px;padding:1px 6px;margin-left:6px;}
+.ic-fault{--ic-color:#f59e0b;}.ic-dashboard{--ic-color:#3b82f6;}.ic-worklog{--ic-color:#ec4899;}.ic-inbox{--ic-color:#10b981;}.ic-chat{--ic-color:#6366f1;}.ic-vault{--ic-color:#8b5cf6;}.ic-plclib{--ic-color:#06b6d4;}.ic-equipment{--ic-color:#6b7280;}.ic-boq{--ic-color:#f43f5e;}.ic-handover{--ic-color:#14b8a6;}.ic-log_analyzer{--ic-color:#84cc16;}
+.ai-panel{position:fixed;top:0;right:-360px;width:360px;height:100vh;background:#fff;border-left:1px solid var(--border-color);transition:right 0.25s ease;z-index:200;display:flex;flex-direction:column;}
+.ai-panel.open{right:0;}
+.ai-panel-header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--border-color);font-size:11px;font-weight:600;color:var(--text-subtle);letter-spacing:0.08em;}
+.ai-panel-close{background:none;border:none;cursor:pointer;font-size:18px;color:var(--text-muted);padding:4px;border-radius:4px;font-family:inherit;}
+.ai-panel-close:hover{background:rgba(0,0,0,0.05);}
+.ai-panel-body{flex:1;overflow-y:auto;padding:20px 18px;font-size:13px;color:var(--text-muted);}
+.ai-panel-input{padding:12px;border-top:1px solid var(--border-color);}
+.ai-panel-input input{width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:#fafafa;color:#999;}
+.ai-toggle{background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;display:flex;align-items:center;color:var(--text-muted);transition:background 0.15s,color 0.15s;margin-right:8px;}
+.ai-toggle:hover{background:rgba(0,0,0,0.05);color:var(--text-main);}
+.back-to-blog{position:fixed;bottom:16px;left:16px;z-index:99999;background:#fff;border:1px solid #e5e7eb;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;color:#6366f1;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:0.15s;}
+.back-to-blog:hover{background:#6366f1;color:#fff;border-color:#6366f1;}
+</style>
+</head>
+<body>
+<a href="../index.html" class="back-to-blog">← กลับ StoLern Blog</a>
+<div id="os-root">
+  <div id="topbar">
+    <div class="tb-l">
+      <span id="logo">WENSDESK</span>
+      <span class="ver-chip">Knowledge v2</span>
+      <div class="tb-menu">
+        <div class="tb-mi" onclick="TopMenu.toggle(event,'srm')" id="m-srm">SRM <span class="tb-caret">▾</span>
+          <div class="tb-dd" id="dd-srm">
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:fault')">⚠️ Fault Navigator</div>
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:dashboard')">📊 SRM Dashboard</div>
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:worklog')">📝 Work Log</div>
+          </div>
+        </div>
+        <div class="tb-mi" onclick="TopMenu.toggle(event,'analytics')" id="m-analytics">Analytics <span class="tb-caret">▾</span>
+          <div class="tb-dd" id="dd-analytics">
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:log_analyzer')">📊 Log Distance Analyzer</div>
+          </div>
+        </div>
+        <div class="tb-mi" onclick="TopMenu.toggle(event,'knowledge')" id="m-knowledge">Knowledge <span class="tb-caret">▾</span>
+          <div class="tb-dd" id="dd-knowledge">
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:inbox')">📥 Doc Inbox</div>
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:chat')">💬 AI Chat</div>
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:vault')">📚 Vault</div>
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:plclib')">📟 PLC Patterns</div>
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:equipment')">🏭 Equipment</div>
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:boq')">🔌 BOQ &amp; Wiring</div>
+          </div>
+        </div>
+        <div class="tb-mi" onclick="TopMenu.toggle(event,'ops')" id="m-ops">Ops <span class="tb-caret">▾</span>
+          <div class="tb-dd" id="dd-ops">
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:handover')">⬅️ Handover</div>
+            <div class="tb-ddi" onclick="TopMenu.act(event,'open:settings')">⚙️ Settings</div>
+          </div>
+        </div>
+        <div class="tb-mi" onclick="TopMenu.toggle(event,'help')" id="m-help">Help
+          <div class="tb-dd" id="dd-help">
+            <div class="tb-ddi" onclick="TopMenu.act(event,'help:about')">About WensDesk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tb-r">
+      <button class="ai-toggle" onclick="K.toggleAiPanel()" aria-label="Tara AI Assistant"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></button>
+      <span id="clock" style="font-variant-numeric:tabular-nums;color:var(--text-muted);font-size:13px;"></span>
+    </div>
+  </div>
+  <div id="app-bar">
+    <button id="app-bar-back" onclick="K.goDesktop()">← Desktop</button>
+    <div id="app-bar-sep"></div>
+    <span id="app-bar-name"></span>
+    <button id="app-bar-close" onclick="K.closeApp(K._currentApp)">✕ Close</button>
+  </div>
+  <div id="desktop"></div>
+  <div id="app-host"></div>
+  <div id="toast"></div>
+  <aside class="ai-panel" id="ai-panel">
+    <header class="ai-panel-header">
+      <span>TARA AI ASSISTANT</span>
+      <button class="ai-panel-close" onclick="K.toggleAiPanel()">×</button>
+    </header>
+    <div class="ai-panel-body">
+      <p>ยังไม่เปิดบริการ AI จะเปิดใน EP ถัดไป</p>
+    </div>
+    <div class="ai-panel-input">
+      <input type="text" placeholder="ถาม Tara AI..." disabled />
+    </div>
+  </aside>
+</div>
+<script>
+const CATS=['PLC','Inverter','Sensor','Safety','Crane','Lift','Shuttle','Conveyor','HMI','WCS','CC-Link','Encoder','Other'];
+const STAT=['Open','In Progress','Waiting Parts','Escalated','Resolved'];
+const PRI=['Critical','High','Medium','Low'];
+const SHIFT=['Day Shift','Evening Shift','Night Shift'];
+const CUST=['Dohome','GBH','KKF','AAI','BRS','Scotch','KTT'];
+function statOpt(s=''){return STAT.map(x=>`<option ${x===s?'selected':''}>${x}</option>`).join('');}
+function priOpt(s=''){return PRI.map(x=>`<option ${x===s?'selected':''}>${x}</option>`).join('');}
+function shiftOpt(s=''){return SHIFT.map(x=>`<option ${x===s?'selected':''}>${x}</option>`).join('');}
+function catOpt(s=''){return`<option value="">-- เลือก --</option>`+CATS.map(x=>`<option ${x===s?'selected':''}>${x}</option>`).join('');}
+function custOpt(s=''){return`<option value="">-- ทุกลูกค้า --</option>`+CUST.map(x=>`<option ${x===s?'selected':''}>${x}</option>`).join('');}
+const DB={
+  init(){['w_faults','w_handovers','w_docs','w_equip','w_logs','w_chats','w_queue','w_patterns'].forEach(k=>{if(!localStorage.getItem(k))localStorage.setItem(k,k==='w_patterns'?JSON.stringify(this.seedPatterns()):'[]');});},
+  get(t){return JSON.parse(localStorage.getItem(t)||'[]');},
+  set(t,v){try{localStorage.setItem(t,JSON.stringify(v));return true;}catch{Toast.show('Storage full');return false;}},
+  add(t,item){const l=this.get(t);l.push(item);return this.set(t,l)?(Toast.show('บันทึกแล้ว ✓'),true):false;},
+  upd(t,id,d){let l=this.get(t).map(x=>x.id===id?{...x,...d}:x);this.set(t,l);Toast.show('Updated ✓');},
+  del(t,id){this.set(t,this.get(t).filter(x=>x.id!==id));Toast.show('ลบแล้ว');},
+  exportAll(){const data={};['w_faults','w_handovers','w_docs','w_equip','w_logs','w_chats','w_patterns'].forEach(k=>data[k]=this.get(k));const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download=`wensdesk_${new Date().toISOString().slice(0,10)}.json`;a.click();},
+  importAll(file){if(!file)return;const r=new FileReader();r.onload=e=>{try{const d=JSON.parse(e.target.result);Object.keys(d).forEach(k=>localStorage.setItem(k,JSON.stringify(d[k])));Toast.show('Restored — reloading...');setTimeout(()=>location.reload(),1200);}catch{alert('Invalid backup');}};r.readAsText(file);},
+  seedPatterns(){return[
+    {id:'p001',name:'State Machine (Step Sequence)',type:'Control Logic',brand:'Mitsubishi/Universal',desc:'ควบคุมลำดับการทำงานแบบ step-by-step',code:'CASE iStep OF\n    0: IF bStart THEN iStep := 10; END_IF;\n    10: bMovePick := TRUE;\n        IF bAtPick THEN iStep := 20; END_IF;\n    20: bGripper := TRUE;\n        tTimer(IN:=TRUE, PT:=T#2S);\n        IF tTimer.Q THEN iStep := 30; END_IF;\nEND_CASE;',vars:[{n:'iStep',d:'step ปัจจุบัน'},{n:'bStart',d:'สัญญาณเริ่ม'}],issues:[{i:'Step ค้าง',c:'Condition ไม่ครบ',f:'Check sensor'}],tags:['state machine','sequence']},
+    {id:'p002',name:'Positioning Control',type:'Motion',brand:'Mitsubishi',desc:'ควบคุมตำแหน่งโดยเปรียบเทียบ Target กับ Actual จาก Encoder',code:'rPosError := rTargetPos - rActualPos;\nbInPosition := ABS(rPosError) < rTolerance;',vars:[{n:'rTargetPos',d:'เป้าหมาย'},{n:'rActualPos',d:'จาก Encoder'}],issues:[{i:'Hunting',c:'Tolerance เล็กเกิน',f:'เพิ่ม tolerance'}],tags:['positioning','encoder','SRM']},
+    {id:'p003',name:'CC-Link Communication',type:'Communication',brand:'Mitsubishi',desc:'การสื่อสาร CC-Link ระหว่าง Master PLC กับ Remote I/O',code:'IF NOT bCCLinkOK THEN\n    iCommError := 230;\n    bFault := TRUE;\nEND_IF;',vars:[{n:'bCCLinkOK',d:'Master link status'}],issues:[{i:'Alarm 230',c:'CC-Link ขาด/Terminator',f:'Check 110Ω terminator'}],tags:['CC-Link','alarm 230']},
+    {id:'p004',name:'Fault Handling',type:'Error Management',brand:'Universal',desc:'จัดการ fault — set code, latch, reset',code:'IF bOverTemp AND NOT bFault THEN\n    iFaultCode := 101;\n    bFault := TRUE;\nEND_IF;',vars:[{n:'bFault',d:'fault active'},{n:'iFaultCode',d:'รหัส fault'}],issues:[{i:'Reset ไม่ได้',c:'Fault condition ยังอยู่',f:'แก้ต้นเหตุก่อน reset'}],tags:['fault','alarm','reset']},
+    {id:'p005',name:'SRM Bay Conveyor Sensor',type:'Sensor',brand:'Mitsubishi/SRM',desc:'Sensor Bay 0 ตรวจจับสินค้าก่อนกระเช้าเครนวิ่งเข้า',code:'bBay0Clear := NOT bBay0Sensor AND NOT bBay0Fault;',vars:[{n:'bBay0Sensor',d:'Photo sensor Bay 0'}],issues:[{i:'Alarm 106',c:'Bay 0 sensor ค้าง',f:'ทำความสะอาด sensor'}],tags:['SRM','sensor','Bay 0']},
+    {id:'p006',name:'Interlock Logic',type:'Safety',brand:'Universal',desc:'ป้องกันการทำงานที่ขัดแย้งกัน',code:'bMotorFwd := bCmdFwd AND NOT bCmdRev AND NOT bFault AND bSafetyOK;',vars:[{n:'bSafetyOK',d:'รวม safety ทั้งหมด'}],issues:[{i:'เครื่องไม่ทำงาน',c:'Interlock ไม่ผ่าน',f:'Check AND chain'}],tags:['interlock','safety']}
+  ]}
+};
+const ENGINES={fault:{name:'SRM Diagnostic EP.9',status:'wip',api:'/api/alarm/analyze'},dashboard:{name:'Weekly Report',status:'wip'},chat:{name:'3-Layer LLM',vec:'21,553 total',status:'wip'},vault:{name:'ASRS Refinery + Vault',vec:'3,306',status:'wip'},plclib:{name:'IL to RAG + gxworks2_help',vec:'738 + 12,422',status:'wip'},equipment:{name:'Regen Expert',vec:'5,825',status:'wip'},boq:{name:'3_BRAIN + MyPLC BOQ',status:'wip'},inbox:{name:'PyMuPDF4LLM Pipeline',status:'wip'}};
+const Apps={fault:{id:'fault',name:'Fault Navigator',icon:'⚠️'},dashboard:{id:'dashboard',name:'SRM Dashboard',icon:'📊'},worklog:{id:'worklog',name:'Work Log',icon:'📝'},inbox:{id:'inbox',name:'Doc Inbox',icon:'📥'},chat:{id:'chat',name:'AI Chat',icon:'💬'},vault:{id:'vault',name:'Vault',icon:'📚'},plclib:{id:'plclib',name:'PLC Patterns',icon:'📟'},equipment:{id:'equipment',name:'Equipment',icon:'🏭'},boq:{id:'boq',name:'BOQ & Wiring',icon:'🔌'},handover:{id:'handover',name:'Handover',icon:'🔄'},settings:{id:'settings',name:'Settings',icon:'⚙️',hidden:true},log_analyzer:{id:'log_analyzer',name:'Log Analyzer',icon:'📊'}};
+const Logic={
+fault:{render(pid){const f=DB.get('w_faults').sort((a,b)=>b.createdAt-a.createdAt);const open=f.filter(x=>x.status!=='Resolved').length;return`<div class="hero"><h2>Fault Navigator</h2><p>วิเคราะห์ alarm log ของ SRM</p><div class="hero-meta"><span class="engine-badge wip"><span class="engine-dot"></span>${ENGINES.fault.name}</span></div></div><div class="toolbar"><button class="btn btn-p" onclick="Logic.fault.form('${pid}')">+ Report Fault</button><div class="toolbar-sp"></div><span style="font-size:12px;color:#666;">${open} Open</span></div><div class="body" style="background:#f5f5f7;padding:14px;" id="fault-list-${pid}">${this.list(f)}</div>`;},
+list(f){if(!f.length)return`<div class="empty"><div class="empty-ic">📋</div><h2>ยังไม่มี fault</h2><p>กด + Report Fault</p></div>`;return f.map(x=>`<div class="card ${x.priority?.toLowerCase()||'med'}"><div class="card-h"><div><div class="card-t">${x.title}</div><div class="card-sub">📍 ${x.equipment||'-'} ${x.errorCode?'· '+x.errorCode:''}</div></div><span class="sb s-open">${x.status||'Open'}</span></div><div class="card-m"><span class="tag tag-c">${x.category||'-'}</span><span class="tag">${x.priority||'-'}</span></div></div>`).join('');},
+form(pid){const el=document.querySelector(`#app-host > div:not([style*="display: none"])`)||document.getElementById('app-host');el.innerHTML=`<div class="toolbar"><button class="btn" onclick="Logic.fault.refresh('${pid}')">← Back</button></div><div class="form"><div class="row"><label>Title *</label><input id="f-t"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div class="row"><label>Equipment *</label><input id="f-eq" placeholder="e.g. SRM-03"></div><div class="row"><label>Error Code</label><input id="f-ec" placeholder="e.g. 230"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div class="row"><label>Category</label><select id="f-ca">${catOpt()}</select></div><div class="row"><label>Priority</label><select id="f-p">${priOpt('Medium')}</select></div></div><div class="row"><label>Symptoms</label><textarea id="f-sym" rows="3"></textarea></div><div class="row"><label>Solution</label><textarea id="f-sol" rows="2"></textarea></div><button class="btn btn-p" style="width:100%;" onclick="Logic.fault.save('${pid}')">Submit</button></div>`;},
+save(pid){const t=document.getElementById('f-t').value,eq=document.getElementById('f-eq').value;if(!t||!eq){Toast.show('กรอก Title และ Equipment');return;}DB.add('w_faults',{id:'f_'+Date.now(),title:t,equipment:eq,errorCode:document.getElementById('f-ec').value,category:document.getElementById('f-ca').value,priority:document.getElementById('f-p').value,status:'Open',symptoms:document.getElementById('f-sym').value,solution:document.getElementById('f-sol').value,createdAt:Date.now()});this.refresh(pid);},
+refresh(pid){K.navigateTo('fault');}},
+dashboard:{render(){const f=DB.get('w_faults');return`<div class="hero"><h2>SRM Dashboard</h2><p>ภาพรวม fault ทั้งหมด</p></div><div class="stat-grid"><div class="stat"><div class="stat-v">${f.length}</div><div class="stat-l">Total</div></div><div class="stat"><div class="stat-v" style="color:#dc2626;">${f.filter(x=>x.status!=='Resolved').length}</div><div class="stat-l">Open</div></div><div class="stat"><div class="stat-v" style="color:#f59e0b;">${f.filter(x=>x.priority==='Critical').length}</div><div class="stat-l">Critical</div></div><div class="stat"><div class="stat-v" style="color:#10b981;">${f.filter(x=>x.status==='Resolved').length}</div><div class="stat-l">Resolved</div></div></div>`;}},
+worklog:{render(pid){const logs=DB.get('w_logs').sort((a,b)=>b.ts-a.ts);return`<div class="hero"><h2>Work Log</h2><p>บันทึกงานซ่อม</p></div><div class="toolbar"><button class="btn btn-p" onclick="Logic.worklog.form('${pid}')">+ New Log</button></div><div class="body" style="padding:14px;">${logs.length?logs.map(x=>`<div class="card"><strong>${new Date(x.ts).toLocaleString()}</strong> · ${x.equip}<p style="margin:6px 0;color:#444;font-size:13px;">${x.summary}</p></div>`).join(''):`<div class="empty"><div class="empty-ic">📝</div><h2>ยังไม่มี log</h2></div>`}</div>`;},
+form(pid){const el=document.querySelector(`#app-host > div:not([style*="display: none"])`)||document.getElementById('app-host');el.innerHTML=`<div class="toolbar"><button class="btn" onclick="K.navigateTo('worklog')">Cancel</button></div><div class="form"><div class="row"><label>Equipment</label><input id="l-eq" placeholder="e.g. SRM-03"></div><div class="row"><label>Summary</label><textarea id="l-su" rows="5"></textarea></div><button class="btn btn-p" onclick="Logic.worklog.save('${pid}')">Save</button></div>`;},
+save(pid){DB.add('w_logs',{id:'l_'+Date.now(),ts:Date.now(),equip:document.getElementById('l-eq').value||'General',summary:document.getElementById('l-su').value});K.navigateTo('worklog');}},
+chat:{render(pid){const msgs=DB.get('w_chats');return`<div class="hero"><h2>AI Chat — ถามภาษาไทย</h2><p>ถาม alarm code · spec · wiring · pattern</p><div class="hero-meta"><span class="engine-badge wip"><span class="engine-dot"></span>${ENGINES.chat.name}</span><span class="tag">21,553 vectors</span></div></div><div class="chat-wrap" style="flex:1;overflow:hidden;"><div class="chat-msgs" id="msgs-${pid}">${msgs.length?msgs.map(m=>this.msg(m)).join(''):this.welcome()}</div><div class="chat-in"><input id="chat-in-${pid}" placeholder="พิมพ์คำถาม..." onkeydown="if(event.key==='Enter')Logic.chat.send('${pid}')"><button class="btn btn-p" onclick="Logic.chat.send('${pid}')">Send</button></div></div>`;},
+welcome(){return`<div class="msg msg-a">สวัสดี! ถามได้เลยเรื่อง alarm, wiring, PLC pattern, equipment spec<br><br><span style="font-size:11px;color:#888;">💡 ตัวอย่าง: "alarm 230 หมายความว่ายังไง"</span></div>`;},
+msg(m){return m.role==='user'?`<div class="msg msg-u">${m.text}</div>`:`<div class="msg msg-a">${m.text}${m.sources?.length?`<div class="msg-srcs">${m.sources.map(s=>`<span class="msg-src">📎 ${s}</span>`).join('')}</div>`:''}</div>`;},
+send(pid){const inp=document.getElementById(`chat-in-${pid}`);const text=inp.value.trim();if(!text)return;const msgs=DB.get('w_chats');msgs.push({id:'m_'+Date.now(),role:'user',text,ts:Date.now()});DB.set('w_chats',msgs);inp.value='';this.renderMsgs(pid);setTimeout(()=>{const reply=this.mockReply(text);msgs.push({id:'m_'+Date.now()+'_a',role:'assistant',text:reply.text,sources:reply.sources,ts:Date.now()});DB.set('w_chats',msgs);this.renderMsgs(pid);},800);},
+mockReply(q){const lo=q.toLowerCase();if(lo.includes('230')||lo.includes('cc-link'))return{text:'Alarm 230 = CC-Link communication error<br><br><strong>สาเหตุ:</strong> Terminator 110Ω ไม่ครบ / สาย CC-Link ขาด / Station number ซ้ำ',sources:['SRM Diagnostic','ASRS Refinery']};if(lo.includes('106'))return{text:'Alarm 106 = Bay 0 sensor abnormal<br><br>ตรวจ: ทำความสะอาด photo sensor, ตรวจ alignment',sources:['SRM Diagnostic','PLC Pattern p005']};return{text:'Demo mode — ยังไม่ได้เชื่อม backend',sources:['Mock response']};},
+renderMsgs(pid){const el=document.getElementById(`msgs-${pid}`);if(!el)return;const msgs=DB.get('w_chats');el.innerHTML=msgs.length?msgs.map(m=>this.msg(m)).join(''):this.welcome();el.scrollTop=el.scrollHeight;}},
+vault:{render(){return`<div class="hero"><h2>Vault</h2><p>ฐานข้อมูลเอกสาร · search ข้าม vectorstore</p><div class="hero-meta"><span class="engine-badge wip"><span class="engine-dot"></span>${ENGINES.vault.name}</span><span class="tag">${ENGINES.vault.vec} vectors</span></div></div><div class="empty" style="height:auto;padding:60px;"><div class="empty-ic">📚</div><h2>Vault — Demo Mode</h2><p>เมื่อเชื่อม backend จะ sync จาก vectorstore อัตโนมัติ</p></div>`;}},
+plclib:{render(pid){const pats=DB.get('w_patterns');return`<div class="hero"><h2>PLC Patterns</h2><p>Pattern library — sample code · common issues</p><div class="hero-meta"><span class="engine-badge wip"><span class="engine-dot"></span>${ENGINES.plclib.name}</span></div></div><div class="plc-list" style="flex:1;"><div class="plc-side"><div style="padding:8px;overflow-y:auto;">${pats.map(p=>`<div class="card" onclick="Logic.plclib.show('${pid}','${p.id}')"><div class="card-t">${p.name}</div><div style="margin-top:4px;"><span class="tag tag-i">${p.type}</span><span class="tag">${p.brand}</span></div></div>`).join('')}</div></div><div id="plc-d-${pid}" class="plc-detail"><div class="empty"><div class="empty-ic">📟</div><p>เลือก pattern ด้านซ้าย</p></div></div></div>`;},
+show(pid,id){const p=DB.get('w_patterns').find(x=>x.id===id);if(!p)return;document.getElementById(`plc-d-${pid}`).innerHTML=`<h2 style="margin:0 0 4px;">${p.name}</h2><span class="tag tag-i">${p.type}</span><span class="tag">${p.brand}</span><p style="color:#555;margin-top:10px;">${p.desc}</p><h4>Code</h4><pre>${p.code}</pre>${p.vars?.length?`<h4>Variables</h4><table class="tbl"><thead><tr><th>Name</th><th>Description</th></tr></thead><tbody>${p.vars.map(v=>`<tr><td><code>${v.n}</code></td><td>${v.d}</td></tr>`).join('')}</tbody></table>`:''} ${p.issues?.length?`<h4>Common Issues</h4>${p.issues.map(i=>`<div class="issue"><div class="issue-t">❓ ${i.i}</div><div style="font-size:12px;"><strong>Cause:</strong> ${i.c}<br><strong>Fix:</strong> ${i.f}</div></div>`).join('')}`:''}`;}},
+equipment:{render(){return`<div class="hero"><h2>Equipment Knowledge</h2><p>Inverter · CC-Link · MELSEC · Sensor · Encoder</p><div class="hero-meta"><span class="engine-badge wip"><span class="engine-dot"></span>${ENGINES.equipment.name}</span><span class="tag">${ENGINES.equipment.vec} vectors</span></div></div><div class="empty" style="height:auto;padding:60px;"><div class="empty-ic">🏭</div><h2>Equipment — Demo Mode</h2><p>Regen Expert มีข้อมูล 25 domain</p></div>`;}},
+boq:{render(){return`<div class="hero"><h2>BOQ &amp; Wiring</h2><p>Wiring diagram PDF → BOQ Excel + connectivity graph</p></div><div class="empty" style="height:auto;padding:60px;"><div class="empty-ic">🔌</div><h2>BOQ — Demo Mode</h2><p>รอเชื่อม MyPLC BOQ pipeline</p></div>`;}},
+inbox:{render(){return`<div class="hero"><h2>Doc Inbox</h2><p>โยน PDF เข้าตรงนี้ → ระบบ chunk + embed + เข้า vectorstore</p><div class="hero-meta"><span class="engine-badge wip"><span class="engine-dot"></span>${ENGINES.inbox.name}</span></div></div><div class="pipeline"><div class="pipe-step"><div class="ic">📄</div><div class="lbl">PDF</div></div><div class="pipe-arr">→</div><div class="pipe-step"><div class="ic">✂️</div><div class="lbl">Chunk</div></div><div class="pipe-arr">→</div><div class="pipe-step"><div class="ic">🧬</div><div class="lbl">BGE-M3</div></div><div class="pipe-arr">→</div><div class="pipe-step"><div class="ic">📦</div><div class="lbl">FAISS</div></div><div class="pipe-arr">→</div><div class="pipe-step"><div class="ic">✓</div><div class="lbl">Ready</div></div></div><div class="empty" style="height:auto;padding:40px;"><div class="empty-ic">📥</div><p>Demo mode — เชื่อม backend เพื่อ upload จริง</p></div>`;}},
+handover:{render(){return`<div class="hero"><h2>Shift Handover</h2><p>ส่งงานข้ามกะ</p></div><div class="empty" style="height:auto;padding:60px;"><div class="empty-ic">🔄</div><h2>Handover — Demo Mode</h2></div>`;}},
+log_analyzer:{render(){return`<div class="hero"><h2>Log Distance Analyzer</h2><p>วิเคราะห์ alarm log จากเครน SRM</p></div><div class="empty" style="height:auto;padding:60px;"><div class="empty-ic">📊</div><h2>Log Analyzer — Demo Mode</h2><p>ต้องเชื่อม backend (FastAPI) เพื่อ upload และวิเคราะห์ log</p></div>`;}},
+settings:{render(){return`<div class="hero"><h2>Settings</h2><p>Backup · restore · clear data</p></div><div style="padding:20px;"><button class="btn" style="width:100%;margin-bottom:8px;" onclick="DB.exportAll()">⬇ Export Backup (JSON)</button><button class="btn" style="width:100%;margin-bottom:8px;" onclick="document.getElementById('imp-f').click()">⬆ Restore Backup</button><input type="file" id="imp-f" accept=".json" style="display:none;" onchange="DB.importAll(this.files[0])"><hr style="margin:18px 0;border:none;border-top:1px solid #eee;"><button class="btn btn-d" style="width:100%;" onclick="if(confirm('ล้างข้อมูลทั้งหมด?')){['w_faults','w_handovers','w_docs','w_equip','w_logs','w_chats','w_queue'].forEach(k=>localStorage.removeItem(k));Toast.show('Cleared');location.reload();}">🗑 Clear All Data</button></div>`;}}
+};
+const TopMenu={
+  toggle(e,id){e.stopPropagation();document.querySelectorAll('.tb-dd').forEach(d=>{if(d.id!==`dd-${id}`)d.classList.remove('open');});document.querySelectorAll('.tb-mi').forEach(m=>{if(m.id!==`m-${id}`)m.classList.remove('active');});document.getElementById(`dd-${id}`).classList.toggle('open');document.getElementById(`m-${id}`).classList.toggle('active');},
+  closeAll(){document.querySelectorAll('.tb-dd').forEach(d=>d.classList.remove('open'));document.querySelectorAll('.tb-mi').forEach(m=>m.classList.remove('active'));},
+  act(e,action){e.stopPropagation();this.closeAll();if(action.startsWith('open:'))K.navigateTo(action.split(':')[1]);else if(action==='help:about')alert('WensDesk Knowledge v2\nUnified Service Intelligence Platform\n\nStack: PyMuPDF4LLM · BGE-M3 · FAISS · qwen3:8b\n© AMW After-sales Service');}
+};
+document.addEventListener('click',e=>{if(!e.target.closest('.tb-mi'))TopMenu.closeAll();});
+const Toast={show(m){const c=document.getElementById('toast');const t=document.createElement('div');t.className='toast';t.textContent=m;c.appendChild(t);setTimeout(()=>t.remove(),2800);}};
+const K={
+  _appCache:{},_currentApp:null,
+  init(){DB.init();this.renderDesktop();this.renderOpenApps();this.startClock();},
+  navigateTo(appId){const app=Apps[appId];if(!app)return;document.getElementById('app-bar').style.display='flex';document.getElementById('app-bar-name').textContent=app.name;document.getElementById('desktop').style.display='none';const host=document.getElementById('app-host');host.classList.remove('visible');host.style.display='flex';Object.values(this._appCache).forEach(el=>el.style.display='none');if(this._appCache[appId]){this._appCache[appId].style.display='flex';}else{const c=document.createElement('div');c.style.cssText='width:100%;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;';const logic=Logic[appId];c.innerHTML=logic?logic.render('app-host'):`<div class="empty"><div class="empty-ic">${app.icon}</div><h2>${app.name}</h2></div>`;host.appendChild(c);this._appCache[appId]=c;}this._currentApp=appId;this.renderOpenApps();requestAnimationFrame(()=>host.classList.add('visible'));TopMenu.closeAll();},
+  goDesktop(){document.getElementById('app-bar').style.display='none';const host=document.getElementById('app-host');host.classList.remove('visible');setTimeout(()=>{host.style.display='none';},200);document.getElementById('desktop').style.display='flex';this._currentApp=null;this.renderOpenApps();TopMenu.closeAll();},
+  closeApp(appId){if(!appId)return;const c=this._appCache[appId];if(c){c.remove();delete this._appCache[appId];}this.goDesktop();},
+  renderDesktop(){const d=document.getElementById('desktop');d.innerHTML='';const oa=document.createElement('div');oa.id='open-apps';const wrap=document.createElement('div');wrap.className='home-container';const sc=document.createElement('div');sc.className='home-shortcuts';Object.values(Apps).filter(a=>!a.hidden).forEach(app=>{const ic=document.createElement('div');ic.className='home-ic';ic.innerHTML=`<div class="home-ic-bg ic-${app.id}">${app.icon}</div><div class="home-ic-t">${app.name}</div>`;ic.onclick=()=>this.navigateTo(app.id);sc.appendChild(ic);});wrap.appendChild(sc);d.appendChild(oa);d.appendChild(wrap);},
+  renderOpenApps(){const el=document.getElementById('open-apps');if(!el)return;const ids=Object.keys(this._appCache);if(!ids.length){el.innerHTML='';return;}el.innerHTML='<span class="label">เปิดอยู่:</span>'+ids.map(id=>{const app=Apps[id];if(!app)return'';return`<div class="tab${id===this._currentApp?' active':''}" onclick="K.navigateTo('${id}')"><span class="tab-icon">${app.icon}</span><span>${app.name}</span><button class="close-btn" onclick="event.stopPropagation();K.closeApp('${id}')">✕</button></div>`;}).join('');},
+  startClock(){const f=()=>{const el=document.getElementById('clock');if(el)el.textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});};f();setInterval(f,1000);},
+  toggleAiPanel(){const panel=document.getElementById('ai-panel');if(panel)panel.classList.toggle('open');}
+};
+window.onload=()=>K.init();
+</script>
+</body>
+</html>
