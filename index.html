@@ -4,291 +4,404 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StoLern Blog</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #fafafa;
-      --bg-card: #ffffff;
-      --text: #1a1a2e;
-      --text-secondary: #64748b;
-      --accent: #6366f1;
-      --accent-light: #e0e7ff;
-      --border: #e2e8f0;
-      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-      --shadow-hover: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
-      --radius: 12px;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --bg: #0f172a;
-        --bg-card: #1e293b;
-        --text: #e2e8f0;
-        --text-secondary: #94a3b8;
-        --accent: #818cf8;
-        --accent-light: #1e1b4b;
-        --border: #334155;
-        --shadow: 0 1px 3px rgba(0,0,0,0.3);
-        --shadow-hover: 0 10px 25px rgba(0,0,0,0.3);
-      }
-    }
-
-    :root[data-theme="dark"] {
-      --bg: #0f172a;
-      --bg-card: #1e293b;
-      --text: #e2e8f0;
-      --text-secondary: #94a3b8;
-      --accent: #818cf8;
-      --accent-light: #1e1b4b;
-      --border: #334155;
-      --shadow: 0 1px 3px rgba(0,0,0,0.3);
-      --shadow-hover: 0 10px 25px rgba(0,0,0,0.3);
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Sarabun', 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: #eef2f7;
+      color: #1e293b;
       line-height: 1.7;
       min-height: 100vh;
     }
 
-    /* Header */
-    header {
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border);
+    /* ─── Topbar ─── */
+    .topbar {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%);
+      color: white;
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
     }
 
-    .header-inner {
-      max-width: 800px;
+    .topbar-inner {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 0 24px;
+      height: 52px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent);
+    .topbar .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: white;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       letter-spacing: -0.5px;
     }
 
-    .logo span {
-      color: var(--text);
-      font-weight: 300;
-    }
-
-    nav a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      margin-left: 24px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    nav a:hover { color: var(--accent); }
-
-    /* Hero */
-    .hero {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 60px 16px 40px;
-      text-align: center;
-    }
-
-    .hero-avatar {
-      width: 80px;
-      height: 80px;
+    .topbar .logo .dot {
+      width: 10px;
+      height: 10px;
+      background: #22c55e;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), #a78bfa);
+      display: inline-block;
+    }
+
+    .topbar .logo .badge {
+      font-size: 0.6rem;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .topbar nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar nav a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .topbar nav a:hover,
+    .topbar nav a.active {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+
+    .topbar .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #a78bfa);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 2rem;
-      color: white;
+      font-size: 0.8rem;
       font-weight: 700;
+      color: white;
+      margin-left: 12px;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      background: linear-gradient(160deg, #d6e4f5 0%, #e8eef6 40%, #f0f4f8 100%);
+      padding: 48px 24px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: -40px;
+      top: -20px;
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(59,130,246,0.05));
+      border-radius: 50%;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 8px;
     }
 
     .hero h1 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 8px;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #1e3a5f;
+      line-height: 1.2;
+      margin-bottom: 4px;
     }
 
-    .hero p {
-      color: var(--text-secondary);
+    .hero h1 span {
+      font-weight: 400;
+      color: #64748b;
+    }
+
+    .hero-subtitle {
+      color: #64748b;
       font-size: 1.05rem;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    /* Posts */
-    .posts {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 16px 60px;
-    }
-
-    .section-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-secondary);
       margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--border);
     }
 
-    .post-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow);
-      transition: box-shadow 0.3s, transform 0.2s;
-      cursor: pointer;
-    }
-
-    .post-card:hover {
-      box-shadow: var(--shadow-hover);
-      transform: translateY(-2px);
-    }
-
-    .post-meta {
+    .hero-badges {
       display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
-    .post-date {
-      font-size: 0.82rem;
-      color: var(--text-secondary);
+    .hero-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
     }
 
-    .post-tag {
+    .hero-badge .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .hero-badge.green .icon { background: #dcfce7; color: #16a34a; }
+    .hero-badge.blue .icon { background: #dbeafe; color: #2563eb; }
+    .hero-badge.purple .icon { background: #ede9fe; color: #7c3aed; }
+
+    /* ─── Cards Grid ─── */
+    .cards-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 48px;
+    }
+
+    .section-label {
       font-size: 0.75rem;
-      padding: 3px 10px;
-      border-radius: 20px;
-      background: var(--accent-light);
-      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #94a3b8;
       font-weight: 600;
+      margin-bottom: 16px;
     }
 
-    .post-card h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      line-height: 1.4;
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
     }
 
-    .post-card p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
-
-    .read-more {
-      display: inline-block;
-      margin-top: 12px;
-      color: var(--accent);
-      font-size: 0.88rem;
-      font-weight: 600;
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: box-shadow 0.25s, transform 0.2s;
+      cursor: pointer;
       text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
     }
 
-    .read-more:hover { text-decoration: underline; }
+    .card:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      transform: translateY(-3px);
+    }
 
-    /* Footer */
+    .card .card-arrow {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: #cbd5e1;
+      font-size: 1.1rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .card:hover .card-arrow {
+      color: #6366f1;
+      transform: translateX(3px);
+    }
+
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+    }
+
+    .card-icon.blue { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+    .card-icon.green { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
+    .card-icon.orange { background: linear-gradient(135deg, #ffedd5, #fed7aa); }
+    .card-icon.purple { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+    .card-icon.pink { background: linear-gradient(135deg, #fce7f3, #fbcfe8); }
+    .card-icon.cyan { background: linear-gradient(135deg, #cffafe, #a5f3fc); }
+
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #1e293b;
+    }
+
+    .card p {
+      font-size: 0.88rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
+    }
+
+    .card-footer .stat {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-footer .stat.accent { color: #6366f1; font-weight: 600; }
+    .card-footer .stat.green { color: #16a34a; font-weight: 600; }
+
+    /* ─── Footer ─── */
     footer {
       text-align: center;
-      padding: 30px 16px;
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      border-top: 1px solid var(--border);
-      max-width: 800px;
+      padding: 24px 16px;
+      color: #94a3b8;
+      font-size: 0.82rem;
+      border-top: 1px solid #e2e8f0;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
+    footer a { color: #6366f1; text-decoration: none; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .topbar nav a { font-size: 0.78rem; padding: 6px 10px; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-inner">
-      <a href="index.html" class="logo">Sto<span>Lern</span></a>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="logo">
+        <span class="dot"></span>
+        StoLern
+        <span class="badge">Blog</span>
+      </a>
       <nav>
-        <a href="index.html">หน้าแรก</a>
+        <a href="index.html" class="active">หน้าแรก</a>
         <a href="apps/wensdesk.html">WensDesk</a>
         <a href="about.html">เกี่ยวกับ</a>
+        <div class="avatar">SP</div>
       </nav>
     </div>
-  </header>
+  </div>
 
+  <!-- Hero -->
   <section class="hero">
-    <div class="hero-avatar">S</div>
-    <h1>สวัสดี, ผม StoLern 👋</h1>
-    <p>บันทึกเรื่องราว ความคิด และสิ่งที่เรียนรู้ระหว่างทาง</p>
+    <div class="hero-inner">
+      <div class="hero-label">W E L C O M E&nbsp;&nbsp;T O</div>
+      <h1>Sto<span>Lern</span></h1>
+      <div class="hero-subtitle">Personal Blog & Knowledge Platform</div>
+      <div class="hero-badges">
+        <div class="hero-badge green">
+          <div class="icon">&#9889;</div>
+          LEARN & SHARE
+        </div>
+        <div class="hero-badge blue">
+          <div class="icon">&#128214;</div>
+          BLOG POSTS
+        </div>
+        <div class="hero-badge purple">
+          <div class="icon">&#128736;</div>
+          TOOLS & APPS
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="posts">
-    <div class="section-title">🖥️ แอปพลิเคชัน</div>
-
-    <article class="post-card" onclick="location.href='apps/wensdesk.html'" style="border-left: 3px solid var(--accent);">
-      <div class="post-meta">
-        <span class="post-date">5 ตุลาคม 2568</span>
-        <span class="post-tag">แอป</span>
-      </div>
-      <h2>WensDesk Knowledge v2 🖥️</h2>
-      <p>ระบบจัดการความรู้สำหรับงานซ่อมบำรุง SRM — Dashboard, Fault Guide, Work Log, Equipment และอื่น ๆ</p>
-      <a href="apps/wensdesk.html" class="read-more">เปิดแอป →</a>
-    </article>
+  <!-- Apps Section -->
+  <section class="cards-section">
+    <div class="section-label">แอปพลิเคชัน</div>
+    <div class="cards-grid">
+      <a href="apps/wensdesk.html" class="card">
+        <span class="card-arrow">&#10095;</span>
+        <div class="card-icon blue">&#128421;</div>
+        <h3>WensDesk Knowledge v2</h3>
+        <p>ระบบจัดการความรู้สำหรับงานซ่อมบำรุง SRM — Dashboard, Fault Guide, Work Log และอื่น ๆ</p>
+        <div class="card-footer">
+          <span class="stat accent">&#9889; 13 Apps</span>
+          <span class="stat green">&#9679; SRM Platform</span>
+        </div>
+      </a>
+    </div>
   </section>
 
-  <section class="posts">
-    <div class="section-title">📝 บทความล่าสุด</div>
+  <!-- Posts Section -->
+  <section class="cards-section" style="padding-top: 0;">
+    <div class="section-label">บทความล่าสุด</div>
+    <div class="cards-grid">
+      <a href="posts/hello-world.html" class="card">
+        <span class="card-arrow">&#10095;</span>
+        <div class="card-icon green">&#127758;</div>
+        <h3>สวัสดีชาวโลก!</h3>
+        <p>โพสต์แรกของ blog นี้ — ทำไมถึงเริ่มเขียน และอยากจะเล่าอะไรบ้าง</p>
+        <div class="card-footer">
+          <span class="stat">&#128197; 5 ต.ค. 2567</span>
+          <span class="stat accent">ทั่วไป</span>
+        </div>
+      </a>
 
-    <article class="post-card" onclick="location.href='posts/hello-world.html'">
-      <div class="post-meta">
-        <span class="post-date">5 ตุลาคม 2567</span>
-        <span class="post-tag">ทั่วไป</span>
-      </div>
-      <h2>สวัสดีชาวโลก! 🌏</h2>
-      <p>โพสต์แรกของ blog นี้ — ทำไมถึงเริ่มเขียน และอยากจะเล่าอะไรบ้าง</p>
-      <a href="posts/hello-world.html" class="read-more">อ่านต่อ →</a>
-    </article>
-
-    <article class="post-card" onclick="location.href='posts/learn-github.html'">
-      <div class="post-meta">
-        <span class="post-date">5 ตุลาคม 2567</span>
-        <span class="post-tag">เรียนรู้</span>
-      </div>
-      <h2>เริ่มต้นใช้ GitHub ครั้งแรก 🚀</h2>
-      <p>บันทึกประสบการณ์การสร้างเว็บไซต์แรกบน GitHub Pages — ง่ายกว่าที่คิด!</p>
-      <a href="posts/learn-github.html" class="read-more">อ่านต่อ →</a>
-    </article>
+      <a href="posts/learn-github.html" class="card">
+        <span class="card-arrow">&#10095;</span>
+        <div class="card-icon orange">&#128640;</div>
+        <h3>เริ่มต้นใช้ GitHub ครั้งแรก</h3>
+        <p>บันทึกประสบการณ์การสร้างเว็บไซต์แรกบน GitHub Pages — ง่ายกว่าที่คิด!</p>
+        <div class="card-footer">
+          <span class="stat">&#128197; 5 ต.ค. 2567</span>
+          <span class="stat accent">เรียนรู้</span>
+        </div>
+      </a>
+    </div>
   </section>
 
   <footer>
-    <p>© 2024 StoLern · สร้างด้วย ❤️ บน <a href="https://github.com/stolern/feedback" target="_blank">GitHub</a></p>
+    <p>&copy; 2024 StoLern &middot; สร้างด้วย &#10084;&#65039; บน <a href="https://github.com/stolern/feedback" target="_blank">GitHub</a></p>
   </footer>
 
 </body>
