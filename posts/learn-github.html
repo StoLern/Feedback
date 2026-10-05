@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เริ่มต้นใช้ GitHub ครั้งแรก — StoLern Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafafa; --bg-card: #ffffff; --text: #1a1a2e;
+      --text-secondary: #64748b; --accent: #6366f1; --border: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08); --radius: 12px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0f172a; --bg-card: #1e293b; --text: #e2e8f0;
+        --text-secondary: #94a3b8; --accent: #818cf8; --border: #334155;
+        --shadow: 0 1px 3px rgba(0,0,0,0.3);
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0f172a; --bg-card: #1e293b; --text: #e2e8f0;
+      --text-secondary: #94a3b8; --accent: #818cf8; --border: #334155;
+      --shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans Thai', 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+    header { background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 800px; margin: 0 auto; padding: 16px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+    .logo span { color: var(--text); font-weight: 300; }
+    nav a { color: var(--text-secondary); text-decoration: none; margin-left: 24px; font-size: 0.9rem; font-weight: 500; }
+    nav a:hover { color: var(--accent); }
+    .article { max-width: 800px; margin: 0 auto; padding: 50px 16px 60px; }
+    .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 20px; }
+    .back-link:hover { text-decoration: underline; }
+    .article-header h1 { font-size: 2rem; margin-bottom: 12px; line-height: 1.4; }
+    .article-meta { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 32px; }
+    .article-body { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow); }
+    .article-body p { margin-bottom: 20px; font-size: 1.05rem; color: var(--text-secondary); }
+    .article-body p:last-child { margin-bottom: 0; }
+    .article-body strong { color: var(--text); }
+    .article-body h2 { font-size: 1.3rem; margin: 28px 0 12px; color: var(--text); }
+    .step { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 12px 0; }
+    .step-num { display: inline-block; background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 0.85rem; font-weight: 700; margin-right: 10px; }
+    footer { text-align: center; padding: 30px 16px; color: var(--text-secondary); font-size: 0.85rem; border-top: 1px solid var(--border); max-width: 800px; margin: 0 auto; }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="../index.html" class="logo">Sto<span>Lern</span></a>
+      <nav>
+        <a href="../index.html">หน้าแรก</a>
+        <a href="../about.html">เกี่ยวกับ</a>
+      </nav>
+    </div>
+  </header>
+
+  <article class="article">
+    <div class="article-header">
+      <a href="../index.html" class="back-link">← กลับหน้าแรก</a>
+      <h1>เริ่มต้นใช้ GitHub ครั้งแรก 🚀</h1>
+      <div class="article-meta">5 ตุลาคม 2567 · เรียนรู้</div>
+    </div>
+    <div class="article-body">
+      <p><strong>GitHub</strong> คือเว็บไซต์สำหรับเก็บโค้ดและไฟล์ต่าง ๆ แบบออนไลน์ แต่สิ่งที่เจ๋งคือ เราสามารถใช้มันสร้างเว็บไซต์ฟรีได้ด้วย! 🎉</p>
+
+      <h2>GitHub Pages คืออะไร?</h2>
+      <p>GitHub Pages เป็นบริการฟรีจาก GitHub ที่ให้เราเอาไฟล์ HTML, CSS, JavaScript ขึ้นไปเก็บแล้วมันจะกลายเป็นเว็บไซต์ให้เลย ไม่ต้องจ่ายค่า hosting!</p>
+
+      <h2>ขั้นตอนที่ทำ</h2>
+      <div class="step">
+        <span class="step-num">1</span>
+        <strong>สมัครบัญชี GitHub</strong> — ใช้อีเมลสมัครได้เลย ฟรี
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <strong>สร้าง Repository</strong> — เหมือนโฟลเดอร์สำหรับเก็บไฟล์โปรเจกต์
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <strong>สร้างไฟล์ HTML</strong> — เขียนหน้าเว็บแล้วใส่เข้าไป
+      </div>
+      <div class="step">
+        <span class="step-num">4</span>
+        <strong>เปิด GitHub Pages</strong> — ไปที่ Settings → Pages แล้วเลือก branch
+      </div>
+      <div class="step">
+        <span class="step-num">5</span>
+        <strong>ได้เว็บไซต์!</strong> — เข้าได้ที่ stolern.github.io/feedback
+      </div>
+
+      <h2>สิ่งที่ได้เรียนรู้</h2>
+      <p>🔹 GitHub ไม่ได้น่ากลัวอย่างที่คิด — แค่เริ่มลองก็พอ<br>
+         🔹 ไม่ต้องเก่งโค้ดก็สร้างเว็บได้<br>
+         🔹 มี AI ช่วยเขียนโค้ดให้ สะดวกมาก!</p>
+
+      <p>ถ้าใครอยากลองทำบ้าง ก็ลองดูได้เลยครับ ง่ายกว่าที่คิดจริง ๆ 💪</p>
+    </div>
+  </article>
+
+  <footer>
+    <p>© 2024 StoLern · สร้างด้วย ❤️ บน <a href="https://github.com/stolern/feedback" target="_blank">GitHub</a></p>
+  </footer>
+</body>
+</html>
